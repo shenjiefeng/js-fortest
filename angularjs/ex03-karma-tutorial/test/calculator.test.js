@@ -11,6 +11,7 @@ describe('Calculator', function() {
  */
 
 describe('Calculator', function() {
+/*
   // inject the HTML fixture for the tests
   beforeEach(function() {
     var fixture = '<div id="fixture"><input id="x" type="text">' + 
@@ -30,6 +31,27 @@ describe('Calculator', function() {
   // call the init function of calculator to register DOM elements
   beforeEach(function() {
     window.calculator.init();
+  });
+*/
+
+/*
+The inject/remove boilerplate code can become tedious as the number of tests grow. There are many additional plug-ins and approaches to solving this problem. I’ve used:
+
+karma-fixture
+Once configured the HTML fixtures can be kept in HTML files which can be loaded in the style of:
+*/
+// inject the HTML fixture for the tests
+  beforeEach(function() {
+		fixture.setBase = 'test';
+		var myFixture=fixture.load('hello.html');
+    document.body.insertAdjacentHTML(
+      'afterbegin', 
+      myFixture);
+  });
+
+  // remove the html fixture from the DOM
+  afterEach(function() {
+    fixture.cleanup();
   });
 
   it('should return 3 for 1 + 2', function() {

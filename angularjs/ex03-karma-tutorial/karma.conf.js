@@ -10,18 +10,21 @@ module.exports = function(config) {
 
     // frameworks to use
     // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
-    frameworks: ['jasmine',
+    frameworks: [
+                'jasmine',
+                'fixture'
             ],
-
 
     // list of files / patterns to load in the browser
    // files: [
    // ],
 
-files: [
-    'lib/*.js',
-    'test/*.js',
-  ],
+    files: [
+        'lib/*.js',
+        'test/*.js',
+        'test/*.html',
+				'spec/fixtures/base/**/*',
+      ],
 
     // list of files to exclude
     exclude: [
@@ -33,12 +36,17 @@ files: [
     //preprocessors: {
     //},
 
-
     // test results reporter to use
     // possible values: 'dots', 'progress'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-    reporters: ['progress'],
+    //reporters: ['progress'],
 
+    //Setting up Test Coverage
+    preprocessors: {
+			'**/*.html'   : ['html2js'],
+    	  'lib/*.js': 'coverage'
+    },
+    reporters: ['progress', 'coverage'],
 
     // web server port
     port: 9876,
@@ -59,8 +67,25 @@ files: [
 
     // start these browsers
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-    browsers: ['Chrome'],
-
+    //browsers: ['Chrome'],
+     browsers: ['PhantomJS', 'PhantomJS_custom'],
+    customLaunchers: {
+      'PhantomJS_custom': {
+        base: 'PhantomJS',
+        options: {
+          windowName: 'my-window',
+          settings: {
+            webSecurityEnabled: false
+          },
+        },
+        flags: ['--load-images=true'],
+        debug: true
+      }
+    },
+    phantomjsLauncher: {
+      // Have phantomjs exit if a ResourceError is encountered (useful if karma exits without killing phantom)
+      exitOnResourceError: true
+    },
 
     // Continuous Integration mode
     // if true, Karma captures browsers, runs the tests and exits
